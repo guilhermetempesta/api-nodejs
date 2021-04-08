@@ -18,9 +18,9 @@
 - [x] Logout;
 - [ ] Esqueci minha senha;
 - [x] Usuário 
-    [x] Visualizar perfil;
-    [x] Alterar nome e sobrenome;
-    [x] Deletar conta de usuário;
+    - [x] Visualizar perfil;
+    - [x] Alterar nome e sobrenome;
+    - [x] Deletar conta de usuário;
 
 ### ✔ Pré-requisitos
 

@@ -18,7 +18,7 @@ const blocklist = redis.createClient(redisUrl.port, redisUrl.hostname, {
 });
 
 if (process.env.NODE_ENV != 'development') {
-    blocklist.auth(redisURL.auth.split(":")[1]);
+    blocklist.auth(redisUrl.auth.split(":")[1]);
 }
 
 const handleList = require('./handleList');

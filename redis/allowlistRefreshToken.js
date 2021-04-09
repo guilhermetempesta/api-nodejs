@@ -18,7 +18,7 @@ const allowlist = redis.createClient(redisUrl.port, redisUrl.hostname, {
 });
 
 if (process.env.NODE_ENV != 'development') {
-    allowlist.auth(redisURL.auth.split(":")[1]);
+    allowlist.auth(redisUrl.auth.split(":")[1]);
 }
 
 

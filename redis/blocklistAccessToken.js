@@ -8,7 +8,10 @@ if (process.env.NODE_ENV === 'development') {
 }  
 
 const redis = require('redis');
-const blocklist = redis.createClient({ prefix: 'blocklist-access-token:' });
+const blocklist = redis.createClient(redisUrl, { 
+    no_ready_check: true,
+    prefix: 'blocklist-access-token:' 
+});
 
 const handleList = require('./handleList');
 const handleBlocklist = handleList(blocklist);

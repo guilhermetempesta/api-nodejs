@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "web": "node src/server.js",
-    "start": "nodemon",
+    "dev": "nodemon",
     "production": "pm2 start src/server.js --name api-nodejs"
   },
   "keywords": [],

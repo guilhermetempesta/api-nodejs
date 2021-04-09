@@ -2,9 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const { UserRepository } = require('../repositories/UserRepository');
-const userRepository = new UserRepository;
-const { PasswordService } = require('../services/PasswordService');
-const passwordService = new PasswordService();
+const { CheckPasswordService } = require('../services/CheckPasswordService');
 const { InvalidCredentialsError, EmailNotVerifiedError } = require('../utils/errors');
 const tokens = require('../utils/tokens'); 
 
@@ -16,9 +14,12 @@ passport.use(
     }, 
     async (email, password, done) => {
       try {
+        const userRepository = new UserRepository;
+        const checkPasswordService = new CheckPasswordService();
+
         const user = await userRepository.getByEmail(email)
         if (!user) { throw new InvalidCredentialsError }
-        passwordService.check(password, user.password)
+        checkPasswordService.execute(password, user.password)
         if (!user.verifiedEmail) { throw new EmailNotVerifiedError }
         done(null, user)
       } catch (error) {

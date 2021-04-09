@@ -19,7 +19,6 @@ consign()
     .into(app);
 
     app.use(errorHandler);
-    
 
 app.listen(port, () => {
     console.log(`Server is running in port ${port}...`);

@@ -10,7 +10,9 @@ if (process.env.NODE_ENV === 'development') {
     redisUrl = "redis://127.0.0.1"; 
 }  
 
-const allowlist = redis.createClient(redisUrl, { 
+console.log(redisUrl.port, redisUrl.hostname)
+
+const allowlist = redis.createClient(redisUrl.port, redisUrl.hostname, { 
     no_ready_check: true,
     prefix: 'allowlist-refresh-token:' 
 });

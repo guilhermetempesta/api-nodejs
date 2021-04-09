@@ -9,7 +9,10 @@ if (process.env.NODE_ENV === 'development') {
     redisUrl = "redis://127.0.0.1"; 
 }  
 
-const blocklist = redis.createClient(redisUrl, { 
+console.log(redisUrl.port, redisUrl.hostname)
+
+
+const blocklist = redis.createClient(redisUrl.port, redisUrl.hostname, { 
     no_ready_check: true,
     prefix: 'blocklist-access-token:' 
 });

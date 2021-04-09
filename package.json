@@ -4,7 +4,7 @@
   "description": "API em Node Js e express",
   "main": "src/server.js",
   "scripts": {
-    "web": "node src/server.js",
+    "start": "node src/server.js",
     "dev": "nodemon",
     "production": "pm2 start src/server.js --name api-nodejs"
   },

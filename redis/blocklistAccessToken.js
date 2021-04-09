@@ -1,6 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { createHash } = require('crypto');
 
+require('dotenv').config();  
+let redisUrl = process.env.REDISCLOUD_URL;
+if (process.env.NODE_ENV === 'development') {  
+    redisUrl = "redis://127.0.0.1"; 
+}  
+
 const redis = require('redis');
 const blocklist = redis.createClient({ prefix: 'blocklist-access-token:' });
 

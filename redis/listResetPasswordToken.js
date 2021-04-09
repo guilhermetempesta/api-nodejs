@@ -16,7 +16,7 @@ const list = redis.createClient(redisUrl.port, redisUrl.hostname, {
 });
 
 if (process.env.NODE_ENV != 'development') {
-    blocklist.auth(redisUrl.auth.split(":")[1]);
+    list.auth(redisUrl.auth.split(":")[1]);
 }
 
 module.exports = handleList(list);

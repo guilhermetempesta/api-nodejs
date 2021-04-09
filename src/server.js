@@ -1,4 +1,6 @@
 require('dotenv').config();
+require('../redis/blocklistAccessToken');
+require('../redis/allowlistRefreshToken');
 
 const app = require('express')();
 const consign = require('consign');

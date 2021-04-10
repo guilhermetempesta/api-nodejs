@@ -1,6 +1,8 @@
 const tokens = require('../utils/tokens') ;
 const { UserRepository } = require('../repositories/UserRepository');
 const { SendMailService } = require('../services/SendMailService');
+const { ResetPasswordService } = require('../services/ResetPasswordService');
+const { ChangePasswordService } = require('../services/ChangePasswordService');
 const userRepository = new UserRepository;
 
 class UserController {
@@ -80,6 +82,33 @@ class UserController {
             res.status(200).json({ 
                 message: "E-mail verificado com sucesso!" 
             });
+        } catch (error) {
+            next(error) 
+        }
+    }
+
+    async forgotPassword (req, res, next) {
+        try {
+            const resetPassword = new ResetPasswordService();
+            await resetPassword.execute(req.body.email);
+            res.status(200).json({ 
+                message: 'As instruções para redefinição de senha foram enviadas para seu e-mail.' 
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async changePassword (req, res, next) {
+        try {   
+            const { token, password, confirmPassword } = req.body;
+            
+            const changePassword = new ChangePasswordService();
+            await changePassword.execute(token, password, confirmPassword);
+
+            res.status(200).json({ 
+                message: "Sua senha foi alterada com sucesso!" 
+            });             
         } catch (error) {
             next(error) 
         }

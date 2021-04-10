@@ -85,6 +85,18 @@ class UserRepository {
             throw err
         }
     }
+
+    async changePassword (id, password) {
+        try {
+            const [ updated ] = await User.update(
+                { password: password }, 
+                { where: { id: id } }
+            )
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
 }
 
 module.exports = { UserRepository }

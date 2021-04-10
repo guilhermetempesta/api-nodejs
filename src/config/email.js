@@ -71,4 +71,44 @@ class VerificationEmail extends Email {
   }
 }
 
-module.exports = { VerificationEmail };
+class PasswordResetEmail extends Email {
+  constructor(user, token) {
+    super();
+    const templatePath = resolve(__dirname,"..","views","email","passwordReset.hbs");
+    const variables = { user: user.firstName, token };
+
+    this.from = `"${process.env.EMAIL_NAME}" <${process.env.EMAIL_USER}>`;
+    this.to = user.email;
+    this.subject = 'Redefinição de senha';
+    this.html = emailTemplateParse(templatePath, variables); 
+    this.attachments = [{
+      filename: 'logo_email.jpg',
+      path: resolve(__dirname,'..','views','images','logo_email.jpg'),
+      cid: 'logo'
+    }]
+  }
+}
+
+class ChangePasswordEmail extends Email {
+  constructor(user) {
+    super();
+    const templatePath = resolve(__dirname,"..","views","email","changePassword.hbs");
+    const variables = { user: user.firstName };
+
+    this.from = `"${process.env.EMAIL_NAME}" <${process.env.EMAIL_USER}>`;
+    this.to = user.email;
+    this.subject = 'Alteração de senha';
+    this.html = emailTemplateParse(templatePath, variables); 
+    this.attachments = [{
+      filename: 'logo_email.jpg',
+      path: resolve(__dirname,'..','views','images','logo_email.jpg'),
+      cid: 'logo'
+    }]
+  }
+}
+
+module.exports = { 
+  VerificationEmail,
+  PasswordResetEmail,
+  ChangePasswordEmail
+};

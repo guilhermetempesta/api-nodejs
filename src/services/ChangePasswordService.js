@@ -34,7 +34,7 @@ class ChangePasswordService {
             const sendMail = new SendMailService;
             sendMail.changePassword(user);
         } catch (error) {
-            throw error;
+            throw error; 
         }
     }
 }

@@ -8,10 +8,10 @@ class UserController {
     async store (req, res, next) {
         try {
             const user = req.body;
-            await userRepository.create(user);
+            const newUser = await userRepository.create(user);
 
             const sendMail = new SendMailService;
-            sendMail.verification(user);
+            sendMail.verification(newUser);
 
             res.status(201).json({ 
                 message: 'Sua inscrição foi realizada com sucesso! Verifique seu e-mail e ative sua conta.' 

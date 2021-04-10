@@ -95,7 +95,7 @@ module.exports = {
   access: {
     name: 'Access Token',
     list: blocklistAccessToken,
-    expiration: getUnixTime(add(Date.now(),{minutes:15})), 
+    expiration: getUnixTime(add(Date.now(),{hours:8})), 
     expirationDev: getUnixTime(add(Date.now(),{hours:8})),
     create(user) {
       let exp;

@@ -6,7 +6,8 @@ class UserRepository {
     async create (data) {
         try {   
             await this.checkEmailExists(data.email);
-            await User.create(data);        
+            const user = await User.create(data);   
+            return user;     
         } catch(err) {
             throw err
         }
@@ -72,6 +73,17 @@ class UserRepository {
         } catch (error) {
             throw error;
         } 
+    }
+
+    async verificationEmail (userId) {
+        try {        
+            await User.update(
+                { verifiedEmail: true }, 
+                { where: { id: userId }}
+            )
+        } catch (err) {
+            throw err
+        }
     }
 }
 

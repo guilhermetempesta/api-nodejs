@@ -1,6 +1,7 @@
+const tokens = require('../utils/tokens') ;
 const { UserRepository } = require('../repositories/UserRepository');
+const { SendMailService } = require('../services/SendMailService');
 const userRepository = new UserRepository;
-const tokens = require('../utils/tokens');
 
 class UserController {
 
@@ -8,7 +9,13 @@ class UserController {
         try {
             const user = req.body;
             await userRepository.create(user);
-            res.status(201).json({ message: 'Inscrição realizada com sucesso!' });
+
+            const sendMail = new SendMailService;
+            sendMail.verification(user);
+
+            res.status(201).json({ 
+                message: 'Sua inscrição foi realizada com sucesso! Verifique seu e-mail e ative sua conta.' 
+            });
         } catch (error) {
             next(error); 
         } 
@@ -64,6 +71,18 @@ class UserController {
         } catch (error) {
             next(error)
         }        
+    }
+
+    async verificationEmail (req, res, next) {
+        try {
+            const user = req.user;
+            await userRepository.verificationEmail(user.id);
+            res.status(200).json({ 
+                message: "E-mail verificado com sucesso!" 
+            });
+        } catch (error) {
+            next(error) 
+        }
     }
 }
 

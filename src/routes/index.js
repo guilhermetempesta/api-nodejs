@@ -24,5 +24,8 @@ module.exports = app => {
     app.route('/users')
         .get(authentication.bearer, user.show)         
         .put(authentication.bearer, user.update)         
-        .delete(authentication.bearer, user.destroy)         
+        .delete(authentication.bearer, user.destroy)   
+        
+    app.route('/verification-email/:token')
+        .get(authentication.emailVerification, user.verificationEmail)
 }

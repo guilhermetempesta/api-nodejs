@@ -38,15 +38,28 @@ module.exports = {
 
   async refresh (req, res, next) {
     try {
-        const userRepository = new UserRepository;
         const { refreshToken } = req.body;
         const id = await tokens.refresh.check(refreshToken);
         await tokens.refresh.invalidate(refreshToken);
+        const userRepository = new UserRepository;
         req.user = await userRepository.getById(id);
         return next();
     } catch (error) { 
         next(error)
     }  
+  },
+
+  async emailVerification (req, res, next) {
+    try {
+      const { token } = req.params;
+      const payload = await tokens.emailVerification.check(token);
+      const userRepository = new UserRepository;
+      const user = await userRepository.getById(payload.id);
+      req.user = user;
+      next();
+    } catch (error) {
+      next(error)
+    }
   },
 
 }

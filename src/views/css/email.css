@@ -1,0 +1,19 @@
+body {
+    height: 100vh;
+    color: black;
+    background: white;
+    font: 400 1.5rem/1 Arial, Helvetica, sans-serif; 
+  }
+
+  :root {
+    font-size: 60%;
+  }
+
+  h3 {
+    color: #8b4513;
+  }
+
+  .container img {
+    width: auto;
+    height: auto;
+  }

@@ -8,7 +8,11 @@ module.exports = (req, res, next) => {
     const env = process.env.NODE_ENV || 'development';
     const config = require('../config/database.js')[env];
     console.log(process.env.NODE_ENV);
-    console.log(config.database + config.username + config.password + config.host + config.port );      
+    console.log(config.database);
+    console.log(config.username);
+    console.log(config.password);
+    console.log(config.host);
+    console.log(config.port);      
 
     const sequelize = new Sequelize(config);    
     const models = {};

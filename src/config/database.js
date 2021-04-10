@@ -21,6 +21,7 @@ module.exports = {
       "timestamps": true,
       "underscored": true
     },
-    "seederStorage": "sequelize"
+    "seederStorage": "sequelize",
+    "ssl": true
   }
 }

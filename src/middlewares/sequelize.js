@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/database.js')[env];
 const Sequelize = require('sequelize');
-
-console.log(process.env.NODE_ENV);
-console.log(config.database + config.username + config.password + config.host + config.port );
 
 module.exports = (req, res, next) => {
     console.log('middleware: sequelize');
+
+    const env = process.env.NODE_ENV || 'development';
+    const config = require('../config/database.js')[env];
+    console.log(process.env.NODE_ENV);
+    console.log(config.database + config.username + config.password + config.host + config.port );      
 
     const sequelize = new Sequelize(config);    
     const models = {};

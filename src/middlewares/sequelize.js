@@ -1,23 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/database.js')[env];
+const models = {};
+const modelsDir = path.join(__dirname, '../models');
 
 module.exports = (req, res, next) => {
-    console.log('middleware: sequelize');
+    console.log('middleware: sequelize');             
 
-    const env = process.env.NODE_ENV || 'development';
-    const config = require('../config/database.js')[env];
-    console.log(process.env.NODE_ENV);
-    console.log(config.database);
-    console.log(config.username);
-    console.log(config.password);
-    console.log(config.host);
-    console.log(config.port);      
+    // create new connection
+    let sequelize;
+    if (config.url) {
+        sequelize = new Sequelize(config.url, config);
+    } else {
+        sequelize = new Sequelize(config);    
+    }
 
-    const sequelize = new Sequelize(config);    
-    const models = {};
-    const modelsDir = path.join(__dirname, '../models');
-    
     // load models
     fs.readdirSync(modelsDir)
         .forEach(file => {

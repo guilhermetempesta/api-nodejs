@@ -74,7 +74,7 @@ class VerificationEmail extends Email {
 class PasswordResetEmail extends Email {
   constructor(user, token) {
     super();
-    const templatePath = resolve(__dirname,"..","views","email","passwordReset.hbs");
+    const templatePath = resolve(__dirname,"..","views","email","resetPassword.hbs");
     const variables = { user: user.firstName, token };
 
     this.from = `"${process.env.EMAIL_NAME}" <${process.env.EMAIL_USER}>`;

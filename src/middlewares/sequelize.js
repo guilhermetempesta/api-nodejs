@@ -4,6 +4,9 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
 const Sequelize = require('sequelize');
 
+console.log(process.env.NODE_ENV)
+console.log(config)
+
 module.exports = (req, res, next) => {
     console.log('middleware: sequelize');
 
@@ -20,6 +23,7 @@ module.exports = (req, res, next) => {
             
     // initialize models    
     Object.keys(models).forEach(model => {
+        console.log(sequelize);
         models[model].init(sequelize);
     })
 

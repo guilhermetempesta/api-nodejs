@@ -17,11 +17,13 @@ module.exports = {
   "production": {
     "dialect": "postgres",
     "url": process.env.DATABASE_URL,
+    "dialectOptions": {
+      "ssl": true
+    },
     "define": {
       "timestamps": true,
       "underscored": true
     },
-    "seederStorage": "sequelize",
-    "ssl": true
+    "seederStorage": "sequelize"
   }
 }

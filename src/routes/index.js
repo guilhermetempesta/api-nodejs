@@ -29,8 +29,8 @@ module.exports = app => {
     app.route('/verification-email/:token')
         .get(authentication.emailVerification, user.verificationEmail)
   
-    app.route('/forgot-password')
-        .patch(user.forgotPassword)
+    app.route('/reset-password')
+        .patch(user.resetPassword)
 
     app.route('/change-password')        
         .patch(user.changePassword)

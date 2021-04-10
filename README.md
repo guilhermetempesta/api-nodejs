@@ -11,16 +11,20 @@
 
 ### Features
 
-- [x] SignUp;
-- [ ] Confirmação do e-mail do usuário;
-- [x] Login e Refresh Token;
-- [x] Autenticação com Token JWT;
+- [x] Criar conta de usuário (sign up);
+- [x] Confirmação do e-mail do usuário;
+    - [x] envio de e-mail com link (nodemailer e handlebars); 
+- [x] Login (token jWt);
+- [x] Refresh Token (token opaco);
+- [x] Autenticação do Token jWt (estratégia Bearer);
 - [x] Logout;
-- [ ] Esqueci minha senha;
 - [x] Usuário 
     - [x] Visualizar perfil;
     - [x] Alterar nome e sobrenome;
     - [x] Deletar conta de usuário;
+- [x] Resetar senha;
+- [x] Alterar senha;
+
 
 ### ✔ Pré-requisitos
 
@@ -85,15 +89,18 @@ $ npm start
 
 As seguintes ferramentas foram usadas no desenvolvimento do projeto:
 
-- [Node.js] (https://nodejs.org/en/)
+- [Node.js](https://nodejs.org/en/)
 - [nodemon] : launcher utilizado em desenvolvimento 
 - [bcrypt-nodejs] : criptografia de dados
 - [body-parser] : interpretar o body da requisição
 - [consign] : injeção de dependencias
 - [cors] : disponibilizar a api para outras aplicações
 - [date-fns] : biblioteca para trabalhar com datas
+- [dotenv] : trabalhar com variaveis de ambiente
 - [express]	: framework web
+- [handlebars] : gerar template html (para trabalhar com envio de e-mail)
 - [jsonwebtoken] : estrategias de autenticação - json web token (JWT)
+- [nodemailer] : envio de e-mails no node js
 - [passport] : middleware para autenticação
 - [passport-http-bearer] : framework do passport para a estratégia de autenticação bearer token
 - [passport-local] : framework do passport para a estratégia de autenticação local

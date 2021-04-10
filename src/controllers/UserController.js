@@ -87,7 +87,7 @@ class UserController {
         }
     }
 
-    async forgotPassword (req, res, next) {
+    async resetPassword (req, res, next) {
         try {
             const resetPassword = new ResetPasswordService();
             await resetPassword.execute(req.body.email);

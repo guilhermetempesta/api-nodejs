@@ -1,14 +1,18 @@
 require('dotenv').config();
 require('../redis/blocklistAccessToken');
 require('../redis/allowlistRefreshToken');
+require('../mongodb/connection');
+require('./database');
 
 const app = require('express')();
 const consign = require('consign');
+
 const port = process.env.PORT || 3030;
-const db = require('../src/middlewares/sequelize');
+
+// const db = require('../src/middlewares/sequelize');
 const errorHandler = require('./middlewares/errors');
 
-app.use(db);
+// app.use(db);
 
 consign() 
     .include('./src/middlewares/index.js')
@@ -17,6 +21,7 @@ consign()
     .then('./src/repositories')
     .then('./src/services')
     .then('./src/controllers')
+    .then('./src/tasks')
     .then('./src/routes')
     .into(app);
 

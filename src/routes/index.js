@@ -1,6 +1,10 @@
 const authentication = require('../middlewares/authentication');
+
 const { UserController } = require('../controllers/UserController');
 const user = new UserController;
+
+const { StatController } = require('../controllers/StatController');
+const stat = new StatController;
 
 module.exports = app => {
 
@@ -34,4 +38,7 @@ module.exports = app => {
 
     app.route('/change-password')        
         .patch(user.changePassword)
+
+    app.route('/stats')
+        .get(stat.index)
 }

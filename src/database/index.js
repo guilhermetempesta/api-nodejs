@@ -4,8 +4,7 @@ const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
 
-
-module.exports = (req, res, next) => {
+// module.exports = (req, res, next) => {
     console.log('middleware: sequelize');             
     const models = {};
     const modelsDir = path.join(__dirname, '../models');
@@ -41,5 +40,7 @@ module.exports = (req, res, next) => {
     models.sequelize = sequelize;    
     models.Sequelize = Sequelize;
 
-    next();
-}
+//     next();
+// }
+
+module.exports = sequelize;

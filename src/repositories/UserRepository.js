@@ -52,6 +52,15 @@ class UserRepository {
         }
     }
 
+    async count() {
+        try {
+            const usersCount = await User.count();
+            return usersCount;
+        } catch (err) {
+            throw err
+        }
+    }
+
     async remove (id) {
         try {
             await User.destroy({

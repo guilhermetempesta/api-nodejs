@@ -6,13 +6,9 @@ require('./database');
 
 const app = require('express')();
 const consign = require('consign');
-
-const port = process.env.PORT || 3030;
-
-// const db = require('../src/middlewares/sequelize');
 const errorHandler = require('./middlewares/errors');
 
-// app.use(db);
+const port = process.env.PORT || 3030;
 
 consign() 
     .include('./src/middlewares/index.js')
@@ -28,5 +24,5 @@ consign()
     app.use(errorHandler);
 
 app.listen(port, () => {
-    console.log(`Server is running in port ${port}...`);
+    console.log(`Servidor rodando na porta ${port}...`);
 });

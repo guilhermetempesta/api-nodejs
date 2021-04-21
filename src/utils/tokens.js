@@ -13,7 +13,9 @@ function createJwtToken (user, expirationDate) {
     const now = getUnixTime(new Date());
     console.log(now, expirationDate)
     if (expirationDate < now) { 
-      throw new jwt.JsonWebTokenError('Erro ao gerar token de acesso!') 
+      // throw new jwt.JsonWebTokenError('Erro ao gerar token de acesso!') 
+      console.log('Erro ao gerar token de acesso!')
+      expirationDate = now + (60 * 60 * 8 * 1)
     }
 
     const payload = {
@@ -95,8 +97,8 @@ module.exports = {
   access: {
     name: 'Access Token',
     list: blocklistAccessToken,
-    expiration: getUnixTime(add(Date.now(),{hours:8})), 
-    expirationDev: getUnixTime(add(Date.now(),{hours:8})),
+    expiration: getUnixTime(add(new Date(),{hours:8})), 
+    expirationDev: getUnixTime(add(new Date(),{hours:8})),
     create(user) {
       let exp;
       (process.env.NODE_ENV==='development') ? exp=this.expirationDev : exp=this.expiration;
@@ -116,7 +118,7 @@ module.exports = {
   refresh: {
     name: 'Refresh Token',
     list: allowlistRefreshToken,
-    expiration: getUnixTime(add(Date.now(),{days:1})),
+    expiration: getUnixTime(add(new Date(),{days:1})),
     create(id) {
       return createOpaqueToken(id, this.expiration, this.list);
     },
@@ -130,7 +132,7 @@ module.exports = {
 
   emailVerification: {
     name: 'Token de verificação de e-mail',
-    expiration: getUnixTime(add(Date.now(),{hours:1})), 
+    expiration: getUnixTime(add(new Date(),{hours:1})), 
     create(user) {
       return createJwtToken(user, this.expiration);
     },
@@ -142,7 +144,7 @@ module.exports = {
   resetPassword: {
     name: 'Token de redefinição de senha',
     list: listResetPasswordToken,
-    expiration: getUnixTime(add(Date.now(),{hours:1})),
+    expiration: getUnixTime(add(new Date(),{hours:1})),
     create(id) {
       return createOpaqueToken(id, this.expiration, this.list);
     },

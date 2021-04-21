@@ -16,7 +16,8 @@ class UserController {
             sendMail.verification(newUser);
 
             res.status(201).json({ 
-                message: 'Sua inscrição foi realizada com sucesso! Verifique seu e-mail e ative sua conta.' 
+                message: 'Usuário cadastrado com sucesso! O e-mail deve ser confirmado.' 
+                // message: 'Sua inscrição foi realizada com sucesso! Verifique seu e-mail e ative sua conta.' 
             });
         } catch (error) {
             next(error); 
@@ -24,6 +25,47 @@ class UserController {
     }
 
     async update (req, res, next) {        
+        try {
+            const user = req.body;
+            user.id = req.params.id;
+            await userRepository.update(user);
+            res.status(200).json({ message: "Usuário atualizado com sucesso." });
+        } catch (error) {
+            next(error); 
+        } 
+    }
+
+    async index (req, res, next) {
+        try {                        
+            const users = await userRepository.get(); 
+            res.status(200).json(users);    
+        } catch (error) {
+            next(error); 
+        }
+    }
+
+    async show (req, res, next) {
+        try {      
+            console.log(req.params.id)                   
+            const id = req.params.id;
+            const user = await userRepository.getById(id); 
+            res.status(200).json(user);    
+        } catch (error) {
+            next(error); 
+        }
+    }
+    
+    async destroy (req, res, next) {
+        try {                        
+            const id = req.params.id;   
+            await userRepository.remove(id);
+            res.status(200).json({ message: "Usuário excluído com sucesso." });
+        } catch (error) {
+            next(error); 
+        }
+    } 
+
+    async updateSelf (req, res, next) {        
         try {
             const user = req.body;
             user.id = req.user.id;
@@ -34,7 +76,7 @@ class UserController {
         } 
     }
     
-    async show (req, res, next) {
+    async showSelf (req, res, next) {
         try {                        
             const id = req.user.id;
             const user = await userRepository.getById(id); 
@@ -43,8 +85,8 @@ class UserController {
             next(error); 
         }
     }
-
-    async destroy (req, res, next) {
+    
+    async destroySelf (req, res, next) {
         try {                        
             const id = req.user.id;   
             await userRepository.remove(id);

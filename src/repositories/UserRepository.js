@@ -3,7 +3,7 @@ const { InvalidArgumentError } = require('../utils/errors');
 
 class UserRepository {
 
-    async create (data) {
+    async create(data) {
         try {   
             await this.checkEmailExists(data.email);
             const user = await User.create(data);   
@@ -13,7 +13,7 @@ class UserRepository {
         }
     }
 
-    async update (data) {
+    async update(data) {
         try {
             const { firstName, lastName } = data;
             await User.update({
@@ -24,12 +24,23 @@ class UserRepository {
                     where: {id: data.id}
                 }
             );
+        } catch(err) {
+            throw err
+        }
+    }
+
+    async get() {
+        try {
+            const users = await User.findAll({
+                attributes: ['id', 'firstName', 'lastName', 'email', 'role']
+            })
+            return users
         } catch (err) {
             throw err
         }
     }
 
-    async getById (id) {
+    async getById(id) {
         try {
             const user = await User.findOne({ 
                 attributes: ['id', 'firstName', 'lastName', 'email'],
@@ -41,7 +52,7 @@ class UserRepository {
         }
     }
 
-    async getByEmail (email) {
+    async getByEmail(email) {
         try {
             const user = await User.findOne({ 
                 where: {email: email} 
@@ -61,7 +72,7 @@ class UserRepository {
         }
     }
 
-    async remove (id) {
+    async remove(id) {
         try {
             await User.destroy({
                 where: {id: id} 
@@ -71,8 +82,11 @@ class UserRepository {
         }
     }
 
-    async checkEmailExists (email) {
+    async checkEmailExists(email) {
         try {
+            if (!email) {
+                throw new InvalidArgumentError ('E-mail não informado!')
+            } 
             const count = await User.count({ 
                 where: { email: email }
             });
@@ -84,7 +98,7 @@ class UserRepository {
         } 
     }
 
-    async verificationEmail (userId) {
+    async verificationEmail(userId) {
         try {        
             await User.update(
                 { verifiedEmail: true }, 
@@ -95,7 +109,7 @@ class UserRepository {
         }
     }
 
-    async changePassword (id, password) {
+    async changePassword(id, password) {
         try {
             const [ updated ] = await User.update(
                 { password: password }, 

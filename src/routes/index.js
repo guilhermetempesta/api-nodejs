@@ -10,11 +10,11 @@ module.exports = app => {
 
     app.route('/')
         .get((req, res, next)=>{ 
-            res.status(200).json({ message: "Welcome to my API" })
+            res.status(200).json({ message: "Bem vindo(a) a minha API Node Js!" })
         })
 
     app.route('/signup')
-        .post(user.store); 
+        .post(user.store)
 
     app.route('/login')
         .post(authentication.local, user.login)
@@ -26,6 +26,10 @@ module.exports = app => {
         .post(authentication.refresh, user.login)    
 
     app.route('/users')
+        .post(authentication.bearer, user.store)
+        .get(authentication.bearer, user.index)
+    
+    app.route('/users/:id')
         .get(authentication.bearer, user.show)         
         .put(authentication.bearer, user.update)         
         .delete(authentication.bearer, user.destroy)   

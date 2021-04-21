@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
+const { InvalidArgumentError } = require('../utils/errors');
 
 class User extends Model {
     static init(sequelize) {
@@ -31,7 +32,7 @@ class User extends Model {
                 validate: {
                     notNull: { msg: 'E-mail não informado!' },
                     notEmpty: { msg: 'E-mail não informado!' },
-                    isEmail: { msg: 'E-mail inválido' }
+                    isEmail: { msg: 'E-mail inválido!' }
                 }
             },
             password: {
@@ -39,15 +40,15 @@ class User extends Model {
                 allowNull: false,
                 validate: {
                     notNull: { msg: 'Senha não informada!' },
-                    notEmpty: { msg: 'Senha não informada!' }
+                    notEmpty: { msg: 'Senha não informada!' },
                 }
             },
             confirmPassword: {
                 type: DataTypes.VIRTUAL,
                 allowNull: false,
                 validate: {
-                    notNull: { msg: 'Confirme sua senha!' },
-                    notEmpty: { msg: 'Confirme sua senha!' },
+                    notNull: { msg: 'Confirme a senha!' },
+                    notEmpty: { msg: 'Confirme a senha!' },
                     isMatch: function () {                        
                         const matched = bcrypt.compareSync(this.confirmPassword, this.password)
                         if (!matched) { 
@@ -60,14 +61,22 @@ class User extends Model {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
             },
+            role: {
+                type: DataTypes.ENUM,
+                values: ['admin','user'],
+                defaultValue: 'user',
+            },
         }, {
             sequelize,
             tableName: 'users',                     
             paranoid: true,
             setterMethods: {
                 password: function(value) {
-                    const salt = bcrypt.genSaltSync(10)
-                    const encryptedPassword = bcrypt.hashSync(value, salt)                     
+                    if (value.trim()==='') {
+                        throw new InvalidArgumentError('Senha não informada!');
+                    } 
+                    const salt = bcrypt.genSaltSync(10);
+                    const encryptedPassword = bcrypt.hashSync(value, salt);                     
                     this.setDataValue('password', encryptedPassword);
                 },
             }, 

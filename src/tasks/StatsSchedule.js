@@ -6,7 +6,7 @@ const statRepository = new StatRepository ();
 
 module.exports = app => {
 
-  schedule.scheduleJob('*/1 * * * *', 
+  schedule.scheduleJob('*/1 * * * *',
     async () => {
       try {
 

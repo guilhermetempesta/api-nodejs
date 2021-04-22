@@ -83,9 +83,9 @@ class User extends Model {
         })
     }
 
-    // static associate(models) {
-        
-    // }
+    static associate(models) {
+      this.hasMany(models.Article, { foreignKey: 'userId', as: 'articles'});
+    }
 }
 
 module.exports = User;

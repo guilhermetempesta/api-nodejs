@@ -17,7 +17,7 @@ module.exports = (error, req, res, next) => {
     if (error.name === 'InvalidCredentialsError') status = 401
     if (error.name === 'EmailNotVerifiedError') status = 401
     if (error.name === 'NotFoundError') status = 404
-    if (error.name === 'NotAllowedError') status = 405
+    if (error.name === 'MethodNotAllowedError') status = 405
 
     if ((error instanceof JsonWebTokenError) ||
         (error instanceof TokenExpiredError)) {

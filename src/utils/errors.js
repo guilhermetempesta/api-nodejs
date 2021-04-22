@@ -19,10 +19,23 @@ class InvalidArgumentError extends Error {
     }
   }
   
+  class MethodNotAllowedError extends Error {
+    constructor(message, replaceDefault) {
+      const defaultMessage = 'Operação não permitida!';
+      if (!message) { 
+        message = defaultMessage 
+      } else {
+        if (!replaceDefault) message = `${defaultMessage} ${message}`   
+      }       
+      super(message);
+      this.name = 'MethodNotAllowedError';
+    }
+  }
+  
   class NotFoundError extends Error {
-    constructor (resource) {
-      if (!resource) { resource = 'recurso' }
-      const message = `Não foi possível encontrar ${resource}!`
+    constructor (message) {
+      const defaultMessage = 'Registro não encontrado!'
+      if (!message) { message = defaultMessage }
       super(message)
       this.name = 'NotFoundError'
     }
@@ -55,6 +68,7 @@ class InvalidArgumentError extends Error {
   module.exports = {
     InvalidArgumentError, 
     InternalServerError,
+    MethodNotAllowedError,
     BadRequestError, 
     UnauthorizedError, 
     NotFoundError, 

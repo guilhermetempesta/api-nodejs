@@ -1,9 +1,12 @@
 const authentication = require('../middlewares/authentication');
-
 const { UserController } = require('../controllers/UserController');
-const user = new UserController;
-
+const { CategoryController } = require('../controllers/CategoryController');
+const { ArticleController } = require('../controllers/ArticleController');
 const { StatController } = require('../controllers/StatController');
+
+const user = new UserController;
+const category = new CategoryController;
+const article = new ArticleController;
 const stat = new StatController;
 
 module.exports = app => {
@@ -45,4 +48,23 @@ module.exports = app => {
 
     app.route('/stats')
         .get(stat.index)
+
+    app.route('/categories')
+        .post(authentication.bearer, category.store)
+        .get(authentication.bearer, category.index)
+    
+    app.route('/categories/:id')
+        .get(authentication.bearer, category.show)         
+        .put(authentication.bearer, category.update)         
+        .delete(authentication.bearer, category.destroy)
+
+    app.route('/articles')
+        .post(authentication.bearer, article.store)
+        .get(authentication.bearer, article.index)
+    
+    app.route('/articles/:id')
+        .get(authentication.bearer, article.show)         
+        .put(authentication.bearer, article.update)         
+        .delete(authentication.bearer, article.destroy)
+
 }

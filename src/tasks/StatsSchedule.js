@@ -1,7 +1,11 @@
 const schedule = require('node-schedule');
 const { UserRepository } = require('../repositories/UserRepository');
+const { CategoryRepository } = require('../repositories/CategoryRepository');
+const { ArticleRepository } = require('../repositories/ArticleRepository');
 const { StatRepository } = require('../../mongodb/stats/StatRepository');
 const userRepository = new UserRepository ();
+const categoryRepository = new CategoryRepository ();
+const articleRepository = new ArticleRepository ();
 const statRepository = new StatRepository ();
 
 module.exports = app => {
@@ -11,8 +15,8 @@ module.exports = app => {
       try {
 
         const usersCount = await userRepository.count();
-        const categoriesCount = 0;
-        const articlesCount = 0;
+        const categoriesCount = await categoryRepository.count();
+        const articlesCount = await articleRepository.count();
 
         const stat = {
           users: usersCount,

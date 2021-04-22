@@ -18,12 +18,15 @@
 - [x] Refresh Token (token opaco);
 - [x] Autenticação do Token jWt (estratégia Bearer);
 - [x] Logout;
-- [x] Usuário 
+- [x] Usuário (comum)
     - [x] Visualizar perfil;
     - [x] Alterar nome e sobrenome;
     - [x] Deletar conta de usuário;
-- [x] Resetar senha;
-- [x] Alterar senha;
+    - [x] Resetar senha;
+    - [x] Alterar senha;
+- [x] Crud Usuários (administrador)
+- [x] Crud Categorias
+- [x] Crud Artigos
 
 
 ### ✔ Pré-requisitos

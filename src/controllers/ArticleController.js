@@ -47,6 +47,17 @@ class ArticleController {
             next(error); 
         }
     }
+
+    async indexByCategory (req, res, next) {
+        try {  
+            const id = req.params.id;
+            const page = req.query.page || 1;                       
+            const articles = await articleController.getByCategory(id, page); 
+            res.status(200).json(articles);    
+        } catch (error) {
+            next(error); 
+        }
+    } 
     
     async destroy (req, res, next) {
         try {                        

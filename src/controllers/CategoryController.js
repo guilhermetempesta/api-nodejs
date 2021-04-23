@@ -52,6 +52,15 @@ class CategoryController {
             next(error); 
         }
     }
+
+    async showTree (req, res) {
+        try {
+            const categoriesTree = await categoryRepository.getTree(); 
+            res.status(200).json(categoriesTree);    
+        } catch (error) {
+            next(error); 
+        }
+    }
     
     async destroy (req, res, next) {
         try {                        

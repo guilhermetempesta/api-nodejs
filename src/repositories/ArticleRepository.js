@@ -57,11 +57,29 @@ class ArticleRepository {
                     association: 'user',
                     attributes: ['id', 'firstName', 'lastName', 'email']
                 }],
-                where: {id: id} 
+                where: {id: id}
             })
             category.content = category.content.toString();
 
             return category;
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async getByCategory(id, page) {
+        try {
+            const limit = 10; // limite usado para paginacao            
+            const { count, rows } = await Article.findAndCountAll({ 
+                attributes: ['id', 'name', 'description', 'imageUrl'],
+                where: {categoryId: id},
+                order: [
+                    ['id', 'DESC'],
+                ],
+                limit: limit,                // limite por pagina  
+                offset: page * limit - limit // deslocamento                 
+            })
+            return { data: rows, count, limit}  
         } catch (err) {
             throw err
         }

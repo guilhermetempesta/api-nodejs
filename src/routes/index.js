@@ -23,19 +23,19 @@ module.exports = app => {
         .post(authentication.local, user.login)
         
     app.route('/logout')
-        .post([authentication.refresh, authentication.bearer], user.logout)
+        .post([authentication.refresh/*, authentication.bearer*/], user.logout)
 
     app.route('/refresh-token')
         .post(authentication.refresh, user.login)    
 
     app.route('/users')
-        .post(authentication.bearer, user.store)
-        .get(authentication.bearer, user.index)
+        .post(/*authentication.bearer,*/ user.store)
+        .get(/*authentication.bearer,*/ user.index)
     
     app.route('/users/:id')
-        .get(authentication.bearer, user.show)         
-        .put(authentication.bearer, user.update)         
-        .delete(authentication.bearer, user.destroy)   
+        .get(/*authentication.bearer,*/ user.show)         
+        .put(/*authentication.bearer,*/ user.update)         
+        .delete(/*authentication.bearer,*/ user.destroy)   
         
     app.route('/verification-email/:token')
         .get(authentication.emailVerification, user.verificationEmail)
@@ -50,21 +50,27 @@ module.exports = app => {
         .get(stat.index)
 
     app.route('/categories')
-        .post(authentication.bearer, category.store)
-        .get(authentication.bearer, category.index)
+        .post(/*authentication.bearer,*/ category.store)
+        .get(/*authentication.bearer,*/ category.index)
+
+    app.route('/categories/tree')
+        .get(/*authentication.bearer,*/ category.showTree)
+
+    app.route('/categories/:id/articles')
+        .get(/*authentication.bearer,*/ article.indexByCategory)
     
     app.route('/categories/:id')
-        .get(authentication.bearer, category.show)         
-        .put(authentication.bearer, category.update)         
-        .delete(authentication.bearer, category.destroy)
+        .get(/*authentication.bearer,*/ category.show)         
+        .put(/*authentication.bearer,*/ category.update)         
+        .delete(/*authentication.bearer,*/ category.destroy)
 
     app.route('/articles')
-        .post(authentication.bearer, article.store)
-        .get(authentication.bearer, article.index)
+        .post(/*authentication.bearer,*/ article.store)
+        .get(/*authentication.bearer,*/ article.index)
     
     app.route('/articles/:id')
-        .get(authentication.bearer, article.show)         
-        .put(authentication.bearer, article.update)         
-        .delete(authentication.bearer, article.destroy)
+        .get(/*authentication.bearer,*/ article.show)         
+        .put(/*authentication.bearer,*/ article.update)         
+        .delete(/*authentication.bearer,*/ article.destroy)
 
 }

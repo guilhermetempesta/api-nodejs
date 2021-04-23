@@ -53,6 +53,22 @@ class CategoryRepository {
         }
     }
 
+    async getTree() {
+        try {
+            const categories = await Category.findAll({
+                attributes: ['id', 'name', 'parentId'],
+                order: ['id']
+            })
+            console.log(categories)
+            const categoriesTree = toTree(categories)
+            console.log(categoriesTree)
+
+            return categoriesTree
+        } catch (err) {
+            throw err
+        }
+    }
+
     async count() {
         try {
             const categoryCount = await Category.count();
@@ -113,4 +129,14 @@ function withPath (categories) {
     })
 
     return categoriesWithPath
+}
+
+function toTree (categories, tree) {
+    if (!tree) tree = categories.filter(c => !c.parentId)
+    tree = tree.map(parentNode => {
+        const isChild = node => node.parentId == parentNode.id
+        parentNode.children = toTree(categories, categories.filter(isChild))
+        return parentNode
+    })
+    return tree
 }

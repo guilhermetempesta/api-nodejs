@@ -1,4 +1,5 @@
 const Article = require('../models/Article');
+const { Sequelize } = require('sequelize');
 const { NotFoundError } = require('../utils/errors');
 
 class ArticleRepository {
@@ -71,7 +72,18 @@ class ArticleRepository {
         try {
             const limit = 10; // limite usado para paginacao            
             const { count, rows } = await Article.findAndCountAll({ 
-                attributes: ['id', 'name', 'description', 'imageUrl'],
+                attributes: [
+                    'id', 'name', 'description', 'imageUrl',                    
+                    [Sequelize.fn('concat',
+                        Sequelize.col('user.first_name'),
+                        ' ',
+                        Sequelize.col('user.last_name')
+                        ), 'author']
+                ],
+                include: [{
+                    association: 'user',
+                    attributes: []
+                }],                
                 where: {categoryId: id},
                 order: [
                     ['id', 'DESC'],

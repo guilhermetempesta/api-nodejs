@@ -59,9 +59,10 @@ class CategoryRepository {
                 attributes: ['id', 'name', 'parentId'],
                 order: ['id']
             })
-            console.log(categories)
-            const categoriesTree = toTree(categories)
-            console.log(categoriesTree)
+
+            let categoriesList = []
+            categories.map(c => categoriesList.push(c.dataValues))
+            const categoriesTree = toTree(categoriesList);
 
             return categoriesTree
         } catch (err) {
@@ -79,12 +80,11 @@ class CategoryRepository {
     }
 
     async remove(id) {
-        try {
-            
+        try {            
             const subcategory = await Category.count({
                 where: { parentId: id }
             });
-            console.log(subcategory)
+            
             if (subcategory) throw new MethodNotAllowedError('Esta categoria possui subcategorias.');
 
             const articles = await Article.count({
@@ -131,8 +131,8 @@ function withPath (categories) {
     return categoriesWithPath
 }
 
-function toTree (categories, tree) {
-    if (!tree) tree = categories.filter(c => !c.parentId)
+function toTree (categories, tree) { 
+    if (!tree) { tree = categories.filter(c => !c.parentId) }
     tree = tree.map(parentNode => {
         const isChild = node => node.parentId == parentNode.id
         parentNode.children = toTree(categories, categories.filter(isChild))

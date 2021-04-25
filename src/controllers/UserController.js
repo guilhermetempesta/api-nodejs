@@ -17,7 +17,6 @@ class UserController {
 
             res.status(201).json({ 
                 message: 'Usuário cadastrado com sucesso! O e-mail deve ser confirmado.' 
-                // message: 'Sua inscrição foi realizada com sucesso! Verifique seu e-mail e ative sua conta.' 
             });
         } catch (error) {
             next(error); 
@@ -26,8 +25,12 @@ class UserController {
 
     async update (req, res, next) {        
         try {
-            const user = req.body;
-            user.id = req.params.id;
+            const user = {
+                id: req.params.id,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                role: req.body.role
+            };
             await userRepository.update(user);
             res.status(200).json({ message: "Usuário atualizado com sucesso." });
         } catch (error) {
@@ -66,9 +69,12 @@ class UserController {
     } 
 
     async updateSelf (req, res, next) {        
-        try {
-            const user = req.body;
-            user.id = req.user.id;
+        try {          
+            const user = {
+                id: req.user.id,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName
+            };
             await userRepository.update(user);
             res.status(200).json({ message: "Informações atualizadas." });
         } catch (error) {

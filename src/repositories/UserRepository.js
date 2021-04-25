@@ -15,15 +15,11 @@ class UserRepository {
 
     async update(data) {
         try {
-            const { firstName, lastName } = data;
-            await User.update({
-                    firstName: firstName,
-                    lastName: lastName
-                }, 
-                {   
-                    where: {id: data.id}
+            await User.update(data, {   
+                where: {
+                    id: data.id
                 }
-            );
+            });
         } catch(err) {
             throw err
         }

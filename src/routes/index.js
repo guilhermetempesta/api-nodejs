@@ -3,11 +3,13 @@ const { UserController } = require('../controllers/UserController');
 const { CategoryController } = require('../controllers/CategoryController');
 const { ArticleController } = require('../controllers/ArticleController');
 const { StatController } = require('../controllers/StatController');
+const { AuthController } = require('../controllers/AuthController')
 
 const user = new UserController;
 const category = new CategoryController;
 const article = new ArticleController;
 const stat = new StatController;
+const auth = new AuthController;
 
 module.exports = app => {
 
@@ -20,13 +22,16 @@ module.exports = app => {
         .post(user.store)
 
     app.route('/login')
-        .post(authentication.local, user.login)
+        .post(authentication.local, auth.login)
         
     app.route('/logout')
-        .post([authentication.refresh, authentication.bearer], user.logout)
+        .post([authentication.refresh, authentication.bearer], auth.logout)
 
     app.route('/refresh-token')
-        .post(authentication.refresh, user.login)    
+        .post(authentication.refresh, auth.login) 
+        
+    app.route('/validate-token')
+        .post(auth.validateToken)
 
     app.route('/users')
         .post(authentication.bearer, user.store)

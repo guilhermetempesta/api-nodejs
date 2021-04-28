@@ -1,4 +1,3 @@
-const tokens = require('../utils/tokens') ;
 const { UserRepository } = require('../repositories/UserRepository');
 const { SendMailService } = require('../services/SendMailService');
 const { ResetPasswordService } = require('../services/ResetPasswordService');
@@ -101,27 +100,6 @@ class UserController {
             next(error); 
         }
     }  
-
-    async login (req, res, next) {
-        try {
-            const accessToken = tokens.access.create(req.user);
-            const refreshToken = await tokens.refresh.create(req.user.id);
-            res.set('Authorization', accessToken);
-            res.status(200).json({ refreshToken });
-        } catch (error) {
-            next(error)
-        }
-    }
-
-    async logout (req, res, next) {
-        try {
-            const token = req.token;
-            await tokens.access.invalidate(token);
-            res.status(204).send();
-        } catch (error) {
-            next(error)
-        }        
-    }
 
     async verificationEmail (req, res, next) {
         try {

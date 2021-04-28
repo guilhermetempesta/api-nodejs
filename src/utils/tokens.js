@@ -20,6 +20,7 @@ function createJwtToken (user, expirationDate) {
 
     const payload = {
         id: user.id,
+        firstName: user.firstName,
         email: user.email,
         role: user.role,
         account: user.accountId,

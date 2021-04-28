@@ -13,7 +13,7 @@ module.exports = app => {
   schedule.scheduleJob('*/1 * * * *',
     async () => {
       try {
-        if (process.env.NODE_ENV="development") return
+        //if (process.env.NODE_ENV="development") return
         
         const usersCount = await userRepository.count();
         const categoriesCount = await categoryRepository.count();

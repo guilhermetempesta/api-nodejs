@@ -3,12 +3,6 @@
 ## Descrição do Projeto
 <p align="left"> API desenvolvida com Node JS e Express. </p>
 
-
-<h4 align="center"> 
-	🚧  Projeto em desenvolvimento...  🚧
-</h4>
-
-
 ### Features
 
 - [x] Criar conta de usuário (sign up);
@@ -16,17 +10,13 @@
     - [x] envio de e-mail com link (nodemailer e handlebars); 
 - [x] Login (token jWt);
 - [x] Refresh Token (token opaco);
-- [x] Autenticação do Token jWt (estratégia Bearer);
+    - [ ] renovar token de acesso atraves do refresh token;
+- [x] Autenticação do Token jwt (estratégia Bearer);
 - [x] Logout;
-- [x] Usuário (comum)
-    - [x] Visualizar perfil;
-    - [x] Alterar nome e sobrenome;
-    - [x] Deletar conta de usuário;
-    - [x] Resetar senha;
-    - [x] Alterar senha;
-- [x] Crud Usuários (administrador)
-- [x] Crud Categorias
-- [x] Crud Artigos
+- [ ] Recuperação de senha;
+- [x] Cadastro de Usuários (administrador);
+- [x] Cadastro de Categorias;
+- [x] Cadastro de Artigos;
 
 
 ### ✔ Pré-requisitos
@@ -94,6 +84,7 @@ As seguintes ferramentas foram usadas no desenvolvimento do projeto:
 
 - [Node.js](https://nodejs.org/en/)
 - [nodemon] : launcher utilizado em desenvolvimento 
+- [accesscontrol] : controle de acesso por perfil de usuário nas requisições
 - [bcrypt-nodejs] : criptografia de dados
 - [body-parser] : interpretar o body da requisição
 - [consign] : injeção de dependencias
@@ -103,7 +94,9 @@ As seguintes ferramentas foram usadas no desenvolvimento do projeto:
 - [express]	: framework web
 - [handlebars] : gerar template html (para trabalhar com envio de e-mail)
 - [jsonwebtoken] : estrategias de autenticação - json web token (JWT)
+- [node-schedule] : criar tarefas agendadas
 - [nodemailer] : envio de e-mails no node js
+- [mongoose] : ORM para persistencia de dados no mongoDB
 - [passport] : middleware para autenticação
 - [passport-http-bearer] : framework do passport para a estratégia de autenticação bearer token
 - [passport-local] : framework do passport para a estratégia de autenticação local

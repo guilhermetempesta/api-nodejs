@@ -9,14 +9,11 @@ const blocklistAccessToken = require('../../redis/blocklistAccessToken');
 const allowlistRefreshToken = require('../../redis/allowlistRefreshToken');
 const listResetPasswordToken = require('../../redis/listResetPasswordToken');
 
-function createJwtToken (user, expirationDate) {
-    const now = getUnixTime(new Date());
-    console.log(now, expirationDate)
-    if (expirationDate < now) { 
-      // throw new jwt.JsonWebTokenError('Erro ao gerar token de acesso!') 
-      console.log('Erro ao gerar token de acesso!')
-      expirationDate = now + (60 * 60 * 8 * 1)
-    }
+function createJwtToken (user, expiration) {
+    const now = Math.floor(Date.now() / 1000); // data atual em formato unix
+    expirationDate = now + expiration;         // soma data atual com tempo de expiração
+
+    console.log(now, expiration, expirationDate)
 
     const payload = {
         id: user.id,
@@ -98,11 +95,11 @@ module.exports = {
   access: {
     name: 'Access Token',
     list: blocklistAccessToken,
-    expiration: getUnixTime(add(new Date(),{hours:8})), 
-    expirationDev: getUnixTime(add(new Date(),{hours:8})),
+    expirationTime: (60 * 60 * 8 * 1), // production:  expira em 8 horas
+    expirationTimeDev: (60 * 60 * 8 * 1), // development: expira em 10 segundos
     create(user) {
       let exp;
-      (process.env.NODE_ENV==='development') ? exp=this.expirationDev : exp=this.expiration;
+      (process.env.NODE_ENV=='development') ? exp=this.expirationTimeDev : exp=this.expirationTime;
       return createJwtToken(user, exp);
     },
     check(token) {
@@ -119,7 +116,7 @@ module.exports = {
   refresh: {
     name: 'Refresh Token',
     list: allowlistRefreshToken,
-    expiration: getUnixTime(add(new Date(),{days:1})),
+    expiration: getUnixTime(add(new Date(),{days:1})), // exemplo usando date-fns
     create(id) {
       return createOpaqueToken(id, this.expiration, this.list);
     },
@@ -133,7 +130,7 @@ module.exports = {
 
   emailVerification: {
     name: 'Token de verificação de e-mail',
-    expiration: getUnixTime(add(new Date(),{hours:1})), 
+    expiration: getUnixTime(add(new Date(),{hours:1})), // exemplo usando date-fns
     create(user) {
       return createJwtToken(user, this.expiration);
     },
@@ -145,7 +142,7 @@ module.exports = {
   resetPassword: {
     name: 'Token de redefinição de senha',
     list: listResetPasswordToken,
-    expiration: getUnixTime(add(new Date(),{hours:1})),
+    expiration: getUnixTime(add(new Date(),{hours:1})), // exemplo usando date-fns
     create(id) {
       return createOpaqueToken(id, this.expiration, this.list);
     },

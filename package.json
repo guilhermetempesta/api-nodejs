@@ -16,6 +16,7 @@
     "sequelize-cli": "^6.2.0"
   },
   "dependencies": {
+    "accesscontrol": "^2.2.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "consign": "^0.1.6",

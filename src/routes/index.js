@@ -1,4 +1,6 @@
 const authentication = require('../middlewares/authentication');
+const authorization = require('../middlewares/authorization');
+
 const { UserController } = require('../controllers/UserController');
 const { CategoryController } = require('../controllers/CategoryController');
 const { ArticleController } = require('../controllers/ArticleController');
@@ -34,16 +36,19 @@ module.exports = app => {
         .post(auth.validateToken)
 
     app.route('/users')
-        .post(authentication.bearer, user.store)
-        .get(authentication.bearer, user.index)
+        .all(authentication.bearer)
+        .post(authorization("createAny", "users"), user.store)
+        .get(authorization("readAny", "users"), user.index)
     
     app.route('/users/:id')
-        .get(authentication.bearer, user.show)         
-        .put(authentication.bearer, user.update)         
-        .delete(authentication.bearer, user.destroy)   
+        .all(authentication.bearer)
+        .get(authorization("readAny", "users"), user.show)         
+        .put(authorization("updateAny", "users"), user.update)         
+        .delete(authorization("deleteAny", "users"), user.destroy)   
         
     app.route('/verification-email/:token')
-        .get(authentication.emailVerification, user.verificationEmail)
+        .all(authentication.emailVerification)
+        .get(authorization("readAny", "userVerification"), user.verificationEmail)
   
     app.route('/reset-password')
         .patch(user.resetPassword)
@@ -55,27 +60,33 @@ module.exports = app => {
         .get(stat.index)
 
     app.route('/categories')
-        .post(authentication.bearer, category.store)
-        .get(authentication.bearer, category.index)
+        .all(authentication.bearer)
+        .post(authorization('createAny', 'categories'), category.store)
+        .get(authorization('readAny', 'categories'), category.index)
 
     app.route('/categories/tree')
-        .get(authentication.bearer, category.showTree)
+        .all(authentication.bearer)
+        .get(authorization('readAny', 'categoriesTree'), category.showTree)
 
     app.route('/categories/:id/articles')
-        .get(authentication.bearer, article.indexByCategory)
+        .all(authentication.bearer)
+        .get(authorization('readAny', 'articlesByCategory'), article.indexByCategory)
     
     app.route('/categories/:id')
-        .get(authentication.bearer, category.show)         
-        .put(authentication.bearer, category.update)         
-        .delete(authentication.bearer, category.destroy)
+        .all(authentication.bearer)
+        .get(authorization('readAny', 'categories'), category.show)         
+        .put(authorization('updateAny', 'categories'), category.update)         
+        .delete(authorization('deleteAny', 'categories'), category.destroy)
 
     app.route('/articles')
-        .post(authentication.bearer, article.store)
-        .get(authentication.bearer, article.index)
+        .all(authentication.bearer)
+        .post(authorization('createAny', 'articles'), article.store)
+        .get(authorization('readAny', 'articles'), article.index)
     
     app.route('/articles/:id')
-        .get(authentication.bearer, article.show)         
-        .put(authentication.bearer, article.update)         
-        .delete(authentication.bearer, article.destroy)
+        .all(authentication.bearer)
+        .get(authorization('readAny', 'articlesById'), article.show)         
+        .put(authorization('updateAny', 'articles'), article.update)         
+        .delete(authorization('deleteAny', 'articles'), article.destroy)
 
 }
